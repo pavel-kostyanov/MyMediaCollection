@@ -9,14 +9,19 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Foundation;
 using Microsoft.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace My_Media_Collection.ViewModels
 {
-	public class MainViewModel : BindableBase
+	public partial class MainViewModel : ObservableObject
 	{
 		private string selectedMedium;
+		[ObservableProperty]
 		private ObservableCollection<MediaItem> items;
+		[ObservableProperty]
 		private ObservableCollection<MediaItem> allItems; // show all items in the Combobox filter
+		[ObservableProperty]
 		private IList<string> mediums;         // list of mediums for using in Combobox filter
 		private MediaItem selectedMediaItem;   // 
 		private int additionalItemCount = 1;   // a temporary variable we will use to track how many new items we have added to the list
@@ -38,7 +43,7 @@ namespace My_Media_Collection.ViewModels
 
 					Items.Clear();
 
-					foreach (var item in allItems)
+					foreach (var item in AllItems)
 					{
 						if (string.IsNullOrWhiteSpace(selectedMedium) ||
 							selectedMedium == "All" ||
@@ -50,14 +55,8 @@ namespace My_Media_Collection.ViewModels
 				} 
 		}
 
-		public ObservableCollection<MediaItem> Items
-		{ get { return items; } set { SetProperty(ref items, value); } }
-
-		public ObservableCollection<MediaItem> AllItems
-		{ get { return allItems; } set { SetProperty(ref allItems, value); } }
-
-		public IList<string> Mediums
-		{ get { return this.mediums; } set { SetProperty(ref mediums, value); } }
+		
+		
 
 		public MediaItem SelectedMediaItem
 		{
@@ -65,7 +64,8 @@ namespace My_Media_Collection.ViewModels
 			set
 			{
 				SetProperty(ref selectedMediaItem, value);
-				((RelayCommand)DeleteCommand).RaiseCanExecuteChanged();
+				//((RelayCommand)DeleteCommand).RaiseCanExecuteChanged();
+				DeleteCommand.NotifyCanExecuteChanged();
 			}
 		}
 
@@ -95,16 +95,16 @@ namespace My_Media_Collection.ViewModels
 				MediumInfo = new Medium { Id = 3, MediaType = ItemType.Video, Name = "Blu Ray" }
 			};
 
-			items = new ObservableCollection<MediaItem>
+			Items = new ObservableCollection<MediaItem>
 			{
 				cd,
 				book,
 				bluRay
 			};
 
-			allItems = new ObservableCollection<MediaItem>(Items);
+			AllItems = new ObservableCollection<MediaItem>(Items);
 
-			mediums = new List<string>
+			Mediums = new List<string>
 			{
 				"All",
 				nameof(ItemType.Book),
@@ -115,8 +115,9 @@ namespace My_Media_Collection.ViewModels
 			selectedMedium = Mediums[0];
 		}
 
-		public ICommand AddEditCommand { get; set; }
+		public RelayCommand AddEditCommand { get; set; }
 
+		
 		public void AddOrEditItem()
 		{
 			// Note this is temporary until
@@ -130,18 +131,18 @@ namespace My_Media_Collection.ViewModels
 				MediumInfo = new Medium { Id = 1, MediaType = ItemType.Music, Name = "CD" },
 				Name = $"CD {additionalItemCount}"
 			};
-			allItems.Add(newItem);
+			AllItems.Add(newItem);
 			Items.Add(newItem);
 			additionalItemCount++;
 		}
 
-		public ICommand DeleteCommand { get; set; }
+		public RelayCommand DeleteCommand { get; set; }
 
 		private void DeleteItem()
 
 		{
 
-			allItems.Remove(SelectedMediaItem);
+			AllItems.Remove(SelectedMediaItem);
 
 			Items.Remove(SelectedMediaItem);
 

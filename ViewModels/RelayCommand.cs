@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.UI.Xaml.Input;
 
-
+////
 namespace My_Media_Collection.ViewModels
 {
-	internal class RelayCommand : ICommand
+	internal class relayCommand : ICommand
 	{
 		private readonly Action action;
 		private readonly Func<bool> canExecute;
-		public RelayCommand(Action action) : this(action, null)
+		public relayCommand(Action action) : this(action, null)
 		{			
 		}
 
-		public RelayCommand(Action action, Func<bool> canExecute)
+		public relayCommand(Action action, Func<bool> canExecute)
 		{
 			if (action == null)
 				throw new ArgumentNullException(nameof(action));
