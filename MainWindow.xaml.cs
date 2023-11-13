@@ -1,3 +1,5 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -5,6 +7,9 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using My_Media_Collection.Interfaces;
+using My_Media_Collection.ViewModels;
+using My_Media_Collection.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,27 +28,43 @@ namespace My_Media_Collection
 	/// </summary>
 	public sealed partial class MainWindow : Window
 	{
+		
 		public MainWindow()
 		{
+			
 			this.InitializeComponent();
-			App.ShellFrame = ShellFrame;
-			ShellFrame.Content = new Main();
+			App.ShellFrame = MainWindowFrame;
+			//MainWindowFrame.Content = new Main();
 		}
 
+		private void MainMenu_OnLoaded(object sender, RoutedEventArgs e)
+		{
+			//App.ShellFrame = MainWindowFrame;
+			//MainWindowFrame.Content = new Main();
+		}
+
+		private void MainMenu_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+		{
+			var nav = App.HostContainer.Services.GetService<INavigationService>();
+			nav.NavigateTo((string)args.InvokedItemContainer.Tag, null);
+
+		}
+/*
 		private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
 		{
 			switch (args.InvokedItemContainer.Tag)
 			{
 				case "Home":
 					//navigate to home
-					ShellFrame.Navigate(typeof(Main));
+					MainWindowFrame.Navigate(typeof(Main));
 					break;
-				//case "Favorite":
-					//navigate to favorites
-					//ShellFrame.Navigate(typeof(FavoritePage));
-					//break;
+				case "About":
+					//navigate to About us
+					MainWindowFrame.Navigate(typeof(About));
+					break;
 			}
 		}
+		*/
 	}
 }
 

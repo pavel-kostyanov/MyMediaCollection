@@ -8,12 +8,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <NavigationView ItemInvoked="NavigationView_ItemInvoked" >
+    <NavigationView x:Name="MainMenu" Loaded="MainMenu_OnLoaded" ItemInvoked="MainMenu_ItemInvoked" >
         <NavigationView.MenuItems>
-            <NavigationViewItem Content="Home" Icon="Home" Tag="Home" />
+            <NavigationViewItem Content="Home" Icon="Home" Tag="Main" />
+            <NavigationViewItem Content="About" Icon="Help" Tag="About"/>
+            <NavigationViewItem Content="Messages" Icon="Message" Tag="Messages">
+                <NavigationViewItem.MenuItems>
+                    <NavigationViewItem Content="Inbox" Icon="Mail" Tag="Inbox" />
+                    <NavigationViewItem Content="Sent" Icon="MailReply" Tag="Sent" />
+                </NavigationViewItem.MenuItems>
+            </NavigationViewItem>
         </NavigationView.MenuItems>
 
-        <Frame x:Name="ShellFrame" />
+        <NavigationView.FooterMenuItems>
+            <NavigationViewItem Content="Support" Icon="Help" Tag="Support" />
+            <NavigationViewItem Content="Account" Icon="Account" Tag="Account" />
+        </NavigationView.FooterMenuItems>
+
+        <Frame x:Name="MainWindowFrame" />
 
     </NavigationView>
     

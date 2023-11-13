@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using My_Media_Collection.ViewModels;
-using My_Media_Collection;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,20 +18,18 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace My_Media_Collection
+namespace My_Media_Collection.Views
 {
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class Main : Page
+	public sealed partial class DetailPage : Page
 	{
-		public Main()		
+		public DetailPage()
 		{
-
-			ViewModel = App.HostContainer.Services.GetService<MainViewModel>();
+			ViewModel = App.HostContainer.Services.GetService<DetailPageViewModel>();
 			this.InitializeComponent();
-			
 		}
-		public MainViewModel ViewModel;
+		public DetailPageViewModel ViewModel;
 	}
 }

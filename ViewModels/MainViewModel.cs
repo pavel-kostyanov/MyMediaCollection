@@ -11,6 +11,9 @@ using Windows.Foundation;
 using Microsoft.UI.Xaml.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using My_Media_Collection.Interfaces;
+using My_Media_Collection.Services;
+using My_Media_Collection.Views;
 
 namespace My_Media_Collection.ViewModels
 {
@@ -25,9 +28,12 @@ namespace My_Media_Collection.ViewModels
 		private IList<string> mediums;         // list of mediums for using in Combobox filter
 		private MediaItem selectedMediaItem;   // 
 		private int additionalItemCount = 1;   // a temporary variable we will use to track how many new items we have added to the list
+		private readonly INavigationService _navigationService;
 
-		public MainViewModel() 
+		public MainViewModel(INavigationService navigationService) 
 		{
+
+			_navigationService = navigationService;
 			PopulateData();
 			DeleteCommand = new RelayCommand(DeleteItem, CanDeleteItem);
 			// No CanExecute param is needed for this command
@@ -122,6 +128,7 @@ namespace My_Media_Collection.ViewModels
 		{
 			// Note this is temporary until
 			// we use a real data source for items.
+			/*
 			const int startingItemCount = 3;
 			var newItem = new MediaItem
 			{
@@ -134,6 +141,8 @@ namespace My_Media_Collection.ViewModels
 			AllItems.Add(newItem);
 			Items.Add(newItem);
 			additionalItemCount++;
+			*/
+			_navigationService.NavigateTo("About", null);
 		}
 
 		public RelayCommand DeleteCommand { get; set; }
@@ -150,7 +159,16 @@ namespace My_Media_Collection.ViewModels
 
 		private bool CanDeleteItem() => selectedMediaItem != null;
 
+		
+		public void ListViewDoubleTapped(object sender, DoubleTappedRoutedEventArgs args)
+		{
+			
+			_navigationService.NavigateTo( nameof(DetailPage));
+			
+			
+		}
 
-
+		
+		
 	}
 }
